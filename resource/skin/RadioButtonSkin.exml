@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="xy.RadioButtonSkin" states="up,down,disabled,upAndSelected,downAndSelected,disabledAndSelected" xmlns:e="http://ns.egret.com/eui">
+    <e:Group width="100%" height="100%">
+        <e:Rect id="checker" ellipseWidth="10000" ellipseHeight="10000" fillColor="{labelDisplay.textColor}" width="20" x="0" height="20" y="0" strokeWeight="2" strokeColor="0xffffff" 
+            fillAlpha="0"
+            fillAlpha.upAndSelected="1"
+            fillAlpha.downAndSelected="0.9"
+            fillAlpha.disabledAndSelected="0.6"
+            />
+        <e:Label id="labelDisplay" text="label" bottom="100%" left="100%" size="24" fontFamily="Microsoft YaHei"/>
+        <e:layout>
+            <e:HorizontalLayout verticalAlign="middle" paddingTop="8" paddingBottom="8" paddingLeft="8" paddingRight="8"/>
+        </e:layout>
+    </e:Group>
+</e:Skin>

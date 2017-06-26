@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Group class="PositionItem" height="0" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="0">
+	<e:Rect id="bg" ellipseWidth="10000" ellipseHeight="10000" fillColor="0xffffff" width="12" height="12" verticalCenter="0" horizontalCenter="0"/>
+	<e:Group id="pointBox" left="14" verticalCenter="0">
+		<e:Rect left="0" right="0" top="0" bottom="0" ellipseWidth="4" ellipseHeight="4" fillColor="0xcccccc" fillAlpha="0.5"/>
+		<e:Label id="label" text="(0, 0)" left="2" size="20" fontFamily="Microsoft YaHei" textAlign="center" bold="true" textColor="0x000000" scaleX="1" scaleY="1" right="2" top="2" bottom="2"/>
+	</e:Group>
+</e:Group>
