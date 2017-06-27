@@ -3,13 +3,20 @@
 	<e:Group id="content" left="0" right="0" top="0" bottom="0">
 		<e:Rect left="0" right="0" top="0" bottom="0" fillAlpha="0.5" fillColor="0x666666" x="0" y="0" scaleX="1" scaleY="1"/>
 		<e:Group left="12" right="12" top="12" bottom="12" x="12" y="12" scaleX="1" scaleY="1">
-			<e:CheckBox id="showPoint" label="显示坐标" x="145" y="-23" skinName="xy.RadioButtonSkin" selected="true"/>
+			<e:Label text="地图" x="505" y="180" fontFamily="Microsoft YaHei" size="28" bold="true"/>
+			<e:DataGroup id="mapList" width="100%">
+				<e:layout>
+				<e:TileLayout requestedColumnCount="1" verticalGap="10" horizontalGap="6"/>
+				</e:layout>
+			</e:DataGroup>
 			<e:Label text="材料类型" x="495" y="170" fontFamily="Microsoft YaHei" size="28" bold="true"/>
 			<e:DataGroup id="materialNote" width="100%" y="51" left="0">
 				<e:layout>
-					<e:TileLayout requestedColumnCount="2" horizontalGap="12" verticalGap="6"/>
+				<e:TileLayout requestedColumnCount="2" horizontalGap="12" verticalGap="6"/>
 				</e:layout>
 			</e:DataGroup>
+			<e:Label text="设置" x="505" y="180" fontFamily="Microsoft YaHei" size="28" bold="true"/>
+			<e:CheckBox id="showPoint" label="显示坐标" x="145" y="-23" skinName="xy.RadioButtonSkin" selected="true"/>
 			<e:layout>
 			<e:VerticalLayout/>
 			</e:layout>

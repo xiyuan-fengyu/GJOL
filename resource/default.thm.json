@@ -33,6 +33,7 @@
     "resource/widget/ToolPanel.exml",
     "resource/ui/MaterialUI.exml",
     "resource/widget/MaterialNoteItem.exml",
-    "resource/widget/PositionItem.exml"
+    "resource/widget/PositionItem.exml",
+    "resource/widget/PositionLabel.exml"
   ]
 }

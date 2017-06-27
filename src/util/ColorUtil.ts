@@ -3,39 +3,47 @@
  */
 class ColorUtil {
 
+    static diffColors(): DiffColors {
+        return new DiffColors();
+    }
+
+    static rgbArrToInt(rgb: number[]): number {
+        return rgb[0] << 16 + rgb[1] << 8 + rgb[2];
+    }
+
+}
+
+class DiffColors {
+
     static readonly colors = [
-        0xd81e06,
-        0xf4ea29,
-        0x0e932e,
-        0x0061b2,
-        0x112079,
-        0xd6204b,
-        0xe8989a,
-        0xbd8cbb,
-        0x87a7d6,
-        0x87c38f,
-        0xf9f28b,
-        0xea986c,
-        0x000000,
-        0x707070,
-        0xcdcdcd,
-        0xffffff
+        0x001f3f,
+        0xFF851B,
+        0x0074D9,
+        0xFF4136,
+        0x7FDBFF,
+        0x85144b,
+        0x39CCCC,
+        0xF012BE,
+        0x3D9970,
+        0xB10DC9,
+        0x2ECC40,
+        0x111111,
+        0x01FF70,
+        0xAAAAAA,
+        0xFFDC00,
+        0xDDDDDD
     ];
 
     private index: number;
 
-    private constructor() {
+    constructor() {
         this.index = -1;
     }
 
     public next(): number {
         this.index += 1;
-        this.index %= ColorUtil.colors.length;
-        return ColorUtil.colors[this.index];
-    }
-
-    static diffColors(): ColorUtil {
-        return new ColorUtil();
+        this.index %= DiffColors.colors.length;
+        return DiffColors.colors[this.index];
     }
 
 }

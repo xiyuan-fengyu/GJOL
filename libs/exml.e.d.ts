@@ -60,5 +60,7 @@ declare class MaterialNoteItem extends eui.Group{
 }
 declare class PositionItem extends eui.Group{
 }
+declare class PositionLabel extends eui.Group{
+}
 declare class ToolPanel extends eui.Group{
 }

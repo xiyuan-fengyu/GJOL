@@ -9,9 +9,15 @@ class MaterialScene extends eui.UILayer {
 
     private materialItems: eui.Group;
 
+    private positionLabels: eui.Group;
+
     private toolPanel: ToolPanel;
 
     private showPoint: eui.CheckBox;
+
+    private mapList: eui.DataGroup;
+
+    private mapListDataProvider: eui.ArrayCollection;
 
     private materialNote: eui.DataGroup;
 
@@ -27,10 +33,22 @@ class MaterialScene extends eui.UILayer {
 
         this.map = ChildrenFinder.findById<eui.Image>(this.ui, "map");
         this.materialItems = ChildrenFinder.findById<eui.Group>(this.ui, "materialItems");
+        this.positionLabels = ChildrenFinder.findById<eui.Group>(this.ui, "positionLabels");
         this.initToolPanel();
 
         this.data = RES.getRes("materials_json");
-        this.replaceMap(Object.keys(this.data)[0])
+        this.initMapList();
+    }
+
+    private initMapList() {
+        this.mapListDataProvider.removeAll();
+        let index = 0;
+        Object.keys(this.data).forEach(key => {
+           this.mapListDataProvider.addItem({
+                name: key,
+               selected: index++ == 0
+           });
+        });
     }
 
     private initToolPanel() {
@@ -40,6 +58,20 @@ class MaterialScene extends eui.UILayer {
         this.showPoint.addEventListener(egret.Event.CHANGE, event => {
             this.setMaterialsLabelVisibility(this.showPoint.selected);
         }, this);
+
+        this.mapList = ChildrenFinder.findById<eui.DataGroup>(this.toolPanel, "mapList");
+        this.mapList.itemRenderer = MapListItemRender;
+        this.mapList.dataProvider = this.mapListDataProvider = new eui.ArrayCollection();
+        this.mapListDataProvider.addEventListener(eui.CollectionEvent.COLLECTION_CHANGE, event => {
+            let index = event.location;
+            if (index < this.mapListDataProvider.length) {
+                let item = this.mapListDataProvider.getItemAt(index);
+                if (item.selected) {
+                    this.replaceMap(item.name);
+                }
+            }
+        }, this);
+
         this.materialNote = ChildrenFinder.findById<eui.DataGroup>(this.toolPanel, "materialNote");
         this.materialNote.itemRenderer = MaterialNoteItemRender;
         this.materialNote.dataProvider = this.materialNoteDataProvider = new eui.ArrayCollection();
@@ -50,6 +82,7 @@ class MaterialScene extends eui.UILayer {
                 this.setMaterialsVisibility(item.name, item.checked);
             }
         }, this);
+
         TouchUtil.addTapListener(ChildrenFinder.findById(this.toolPanel, "close"), event => {
            if (this.toolPanel["closed"] == true) {
                FadeUtil.fadeIn(content, () => {
@@ -71,8 +104,10 @@ class MaterialScene extends eui.UILayer {
         let mapRect = mapData.mapRect;
 
         let diffColors = ColorUtil.diffColors();
+        let positionLabelVisible = this.showPoint.selected;
         this.materialNoteDataProvider.removeAll();
         this.materialItems.removeChildren();
+        this.positionLabels.removeChildren();
         Object.keys(materials).forEach(name => {
             let color = diffColors.next();
             this.materialNoteDataProvider.addItem({
@@ -82,26 +117,35 @@ class MaterialScene extends eui.UILayer {
             });
 
             materials[name].forEach(point => {
-                let pointItem = new PositionItem();
-                (<eui.Rect>pointItem["bg"]).fillColor = color;
-                (<eui.Label>pointItem["label"]).text = `(${point[0]}, ${point[1]})`;
+                let s = 14;
+                let pointItem = new eui.Rect(s, s, color);
+                pointItem.anchorOffsetX = pointItem.anchorOffsetY = s / 2;
+                pointItem.ellipseWidth = pointItem.ellipseHeight = s;
                 pointItem["type"] = name;
+                let pos = this.mapPoint(mapRect, point);
+                pointItem.x = pos[0];
+                pointItem.y = pos[1];
+                this.materialItems.addChild(pointItem);
 
-                let pos = MaterialScene.mapPoint(mapRect, point);
-                pointItem.x = pos[0] * this.map.width;
-                pointItem.y = pos[1] * (this.map.height - 48) + 48;
+                let label = new PositionLabel();
+                (<eui.Label>label["label"]).text = `(${point[0]}, ${point[1]})`;
+                this.positionLabels.addChild(label);
+                label.x = pointItem.x + pointItem.width;
+                label.y = pointItem.y - label.height / 2;
+                label.visible = positionLabelVisible;
+
+                pointItem["label"] = label;
 
                 TouchUtil.addHoverInListener(pointItem, event => {
                     if (!this.showPoint.selected) {
-                        FadeUtil.fadeIn(<eui.Group>pointItem["pointBox"]);
+                        FadeUtil.fadeIn(pointItem["label"]);
                     }
                 }, this);
                 TouchUtil.addHoverOutListener(pointItem, event => {
                     if (!this.showPoint.selected) {
-                        FadeUtil.fadeOut(<eui.Group>pointItem["pointBox"]);
+                        FadeUtil.fadeOut(pointItem["label"]);
                     }
                 }, this);
-                this.materialItems.addChild(pointItem);
             });
         });
     }
@@ -111,6 +155,7 @@ class MaterialScene extends eui.UILayer {
             let child = this.materialItems.getChildAt(i);
             if (child["type"] == type) {
                 child.visible = visible;
+                (<PositionLabel>child["label"]).visible = visible;
             }
         }
     }
@@ -118,14 +163,14 @@ class MaterialScene extends eui.UILayer {
     private setMaterialsLabelVisibility(visible) {
         for (let i = 0, len = this.materialItems.numChildren; i < len; i++) {
             let child = this.materialItems.getChildAt(i);
-            (<eui.Group>child["pointBox"]).visible = visible;
+            (<PositionLabel>child["label"]).visible = visible;
         }
     }
 
-    private static mapPoint(mapRect: number[], point: number[]): number[] {
+    private mapPoint(mapRect: number[], point: number[]): number[] {
         return [
-            (point[0] - mapRect[0]) / (mapRect[2] - mapRect[0]),
-            (point[1] - mapRect[1]) / (mapRect[3] - mapRect[1])
+            (point[0] - mapRect[0]) / (mapRect[2] - mapRect[0]) * this.map.width,
+            (point[1] - mapRect[1]) / (mapRect[3] - mapRect[1]) * (this.map.height - 48) + 48
         ];
     }
 

@@ -3,8 +3,8 @@
  */
 class FadeUtil {
 
-    public static fadeIn(component: egret.DisplayObject, callback = null, duration = 300) {
-        if (component == null) return;
+    public static fadeIn(component: any, callback = null, duration = 300) {
+        if (component == null || !(component instanceof egret.DisplayObject)) return;
 
         let doCallback = typeof callback == "function";
         egret.Tween.removeTweens(component);
@@ -20,8 +20,8 @@ class FadeUtil {
         });
     }
 
-    public static fadeOut(component: egret.DisplayObject, callback = null, duration = 300) {
-        if (component == null) return;
+    public static fadeOut(component: any, callback = null, duration = 300) {
+        if (component == null || !(component instanceof egret.DisplayObject)) return;
 
         let doCallback = typeof callback == "function";
         egret.Tween.removeTweens(component);
