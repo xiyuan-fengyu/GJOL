@@ -163,7 +163,9 @@ class MaterialScene extends eui.UILayer {
     private setMaterialsLabelVisibility(visible) {
         for (let i = 0, len = this.materialItems.numChildren; i < len; i++) {
             let child = this.materialItems.getChildAt(i);
-            (<PositionLabel>child["label"]).visible = visible;
+            let label = <PositionLabel>child["label"];
+            label.visible = child.visible && visible;
+            label.alpha = 1;
         }
     }
 
