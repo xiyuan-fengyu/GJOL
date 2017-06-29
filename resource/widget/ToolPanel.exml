@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Group class="ToolPanel" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" width="400">
+<e:Group class="ToolPanel" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" minWidth="400">
 	<e:Group id="content" left="0" right="0" top="0" bottom="0">
 		<e:Rect left="0" right="0" top="0" bottom="0" fillAlpha="0.5" fillColor="0x666666" x="0" y="0" scaleX="1" scaleY="1"/>
 		<e:Group left="12" right="12" top="12" bottom="12" x="12" y="12" scaleX="1" scaleY="1">
