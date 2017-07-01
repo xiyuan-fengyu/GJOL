@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Group class="MaterialNoteItem" xmlns:e="http://ns.egret.com/eui">
     <e:Rect id="checker" ellipseWidth="10000" ellipseHeight="10000" fillColor="0xffffff" width="20" x="0" height="20" y="0" strokeWeight="2" strokeColor="0xffffff" fillAlpha="0"/>
-    <e:Label id="label" text="label" bottom="100%" left="100%" size="24" fontFamily="Microsoft YaHei"/>
+    <e:Label id="label" text="label" bottom="100%" left="100%" size="24" fontFamily="Microsoft YaHei" lineSpacing="5" multiline="true" textAlign="left" verticalAlign="middle" minWidth="250"/>
     <e:layout>
         <e:HorizontalLayout verticalAlign="middle" paddingTop="8" paddingBottom="8" paddingLeft="8" paddingRight="8"/>
     </e:layout>

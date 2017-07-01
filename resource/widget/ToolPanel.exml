@@ -12,11 +12,12 @@
 			<e:Label text="材料类型" x="495" y="170" fontFamily="Microsoft YaHei" size="28" bold="true"/>
 			<e:DataGroup id="materialNote" width="100%" y="51" left="0">
 				<e:layout>
-				<e:TileLayout requestedColumnCount="2" horizontalGap="12" verticalGap="6"/>
+					<e:VerticalLayout/>
 				</e:layout>
+
 			</e:DataGroup>
 			<e:Label text="设置" x="505" y="180" fontFamily="Microsoft YaHei" size="28" bold="true"/>
-			<e:CheckBox id="showPoint" label="显示坐标" x="145" y="-23" skinName="xy.RadioButtonSkin" selected="true"/>
+			<e:CheckBox id="showPoint" label="显示坐标" x="145" y="-23" skinName="xy.RadioButtonSkin" selected="false"/>
 			<e:layout>
 			<e:VerticalLayout/>
 			</e:layout>

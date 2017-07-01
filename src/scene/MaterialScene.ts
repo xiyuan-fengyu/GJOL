@@ -116,38 +116,53 @@ class MaterialScene extends eui.UILayer {
                 checked: true
             });
 
-            materials[name].forEach(point => {
-                let s = 14;
-                let pointItem = new eui.Rect(s, s, color);
-                pointItem.anchorOffsetX = pointItem.anchorOffsetY = s / 2;
-                pointItem.ellipseWidth = pointItem.ellipseHeight = s;
-                pointItem["type"] = name;
-                let pos = this.mapPoint(mapRect, point);
-                pointItem.x = pos[0];
-                pointItem.y = pos[1];
-                this.materialItems.addChild(pointItem);
-
-                let label = new PositionLabel();
-                (<eui.Label>label["label"]).text = `(${point[0]}, ${point[1]})`;
-                this.positionLabels.addChild(label);
-                label.x = pointItem.x + pointItem.width;
-                label.y = pointItem.y - label.height / 2;
-                label.visible = positionLabelVisible;
-
-                pointItem["label"] = label;
-
-                TouchUtil.addHoverInListener(pointItem, event => {
-                    if (!this.showPoint.selected) {
-                        FadeUtil.fadeIn(pointItem["label"]);
-                    }
-                }, this);
-                TouchUtil.addHoverOutListener(pointItem, event => {
-                    if (!this.showPoint.selected) {
-                        FadeUtil.fadeOut(pointItem["label"]);
-                    }
-                }, this);
-            });
+            let materialInfo = materials[name];
+            if (materialInfo instanceof Array) {
+                materials[name].forEach(point => {
+                    this.createPosItem(name, point, `(${point[0]}, ${point[1]})`, color, mapRect, positionLabelVisible);
+                });
+            }
+            else {
+                Object.keys(materialInfo).forEach(spriteName => {
+                    let posints = materialInfo[spriteName];
+                    posints.forEach(point => {
+                        this.createPosItem(name, point, `${spriteName} (${point[0]}, ${point[1]})`, color, mapRect, positionLabelVisible);
+                    });
+                });
+            }
         });
+    }
+
+    private createPosItem(name: string, point: number[], text: string, color: number, mapRect: number[], positionLabelVisible) {
+        let s = 14;
+        let pointItem = new eui.Rect(s, s, color);
+        pointItem.anchorOffsetX = pointItem.anchorOffsetY = s / 2;
+        pointItem.ellipseWidth = pointItem.ellipseHeight = s;
+        pointItem["type"] = name;
+        let pos = this.mapPoint(mapRect, point);
+        pointItem.x = pos[0];
+        pointItem.y = pos[1];
+        this.materialItems.addChild(pointItem);
+
+        let label = new PositionLabel();
+        (<eui.Label>label["label"]).text = text;
+        this.positionLabels.addChild(label);
+        label.x = pointItem.x + pointItem.width;
+        label.y = pointItem.y - label.height / 2;
+        label.visible = positionLabelVisible;
+
+        pointItem["label"] = label;
+
+        TouchUtil.addHoverInListener(pointItem, event => {
+            if (!this.showPoint.selected) {
+                FadeUtil.fadeIn(pointItem["label"]);
+            }
+        }, this);
+        TouchUtil.addHoverOutListener(pointItem, event => {
+            if (!this.showPoint.selected) {
+                FadeUtil.fadeOut(pointItem["label"]);
+            }
+        }, this);
     }
 
     private setMaterialsVisibility(type: string, visible: boolean) {
